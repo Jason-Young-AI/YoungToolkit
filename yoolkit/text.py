@@ -81,6 +81,7 @@ class Text(object):
     @classmethod
     @ArgumentTypeChecker(string=str, form=str)
     def normalize(cls, string, form='NFKC'):
+        # For more information about 'NF*', please refer to Unicode equivalence(https://en.wikipedia.org/wiki/Unicode_equivalence)
         assert form in {'NFC', 'NFKC', 'NFD', 'NFKD'}, f'Do not support this kind of form: \'{form}\'!'
         string = unicodedata.normalize(form, string)
         for special_char, normal_char in SPECIAL_TO_NORMAL.items():
