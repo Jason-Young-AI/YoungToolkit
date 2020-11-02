@@ -43,12 +43,6 @@ def setup_logger(name, logging_path='', logging_level=logging.NOTSET, to_console
 
     logger.handlers.clear()
 
-    if to_console:
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging_level)
-        console_handler.setFormatter(logging_formatter)
-        logger.addHandler(console_handler)
-
     if to_file:
         if logging_path == '':
             logging_path = mk_temp('yoolkit-logger-', 'file')
@@ -58,6 +52,14 @@ def setup_logger(name, logging_path='', logging_level=logging.NOTSET, to_console
         file_handler.setLevel(logging_level)
         file_handler.setFormatter(logging_formatter)
         logger.addHandler(file_handler)
+
+    if to_console:
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging_level)
+        console_handler.setFormatter(logging_formatter)
+        logger.addHandler(console_handler)
+    else:
+        print(f'No log report to console, please look throungh logging in \'{logging_path}\'.')
 
     logger_dict[name] = logger
 
