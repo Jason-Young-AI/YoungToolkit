@@ -17,7 +17,7 @@ import pynvml
 import inspect
 import datetime
 
-from yoolkit.io import mk_temp
+from yoolkit.cio import mk_temp
 
 
 byte_size_dict = {

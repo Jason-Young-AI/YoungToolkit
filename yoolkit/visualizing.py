@@ -14,7 +14,7 @@ import os
 import json
 import visdom
 
-from yoolkit.io import mk_temp
+from yoolkit.cio import mk_temp
 
 
 visualizer_dict = dict()
