@@ -12,7 +12,7 @@
 
 import logging
 
-from yoolkit.io import mk_temp
+from yoolkit.cio import mk_temp
 
 
 logging_level = dict(
@@ -36,26 +36,28 @@ def get_logger(name):
     return logger
 
 
-def setup_logger(name, logging_path='', logging_level=logging.NOTSET):
+def setup_logger(name, logging_path='', logging_level=logging.NOTSET, to_console=True, to_file=True):
     logging_formatter = logging.Formatter("[%(asctime)s %(levelname)s] %(message)s")
     logger = logging.getLogger(name)
     logger.setLevel(logging_level)
 
-    if logging_path == '':
-        logging_path = mk_temp('yoolkit-logger-', 'file')
-        print(f'Logging path is not specified, the following path is used for logging: {logging_path}')
-
     logger.handlers.clear()
 
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging_level)
-    console_handler.setFormatter(logging_formatter)
-    logger.addHandler(console_handler)
+    if to_console:
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging_level)
+        console_handler.setFormatter(logging_formatter)
+        logger.addHandler(console_handler)
 
-    file_handler = logging.FileHandler(logging_path)
-    file_handler.setLevel(logging_level)
-    file_handler.setFormatter(logging_formatter)
-    logger.addHandler(file_handler)
+    if to_file:
+        if logging_path == '':
+            logging_path = mk_temp('yoolkit-logger-', 'file')
+            print(f'Logging path is not specified, the following path is used for logging: {logging_path}')
+
+        file_handler = logging.FileHandler(logging_path)
+        file_handler.setLevel(logging_level)
+        file_handler.setFormatter(logging_formatter)
+        logger.addHandler(file_handler)
 
     logger_dict[name] = logger
 
