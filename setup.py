@@ -57,7 +57,9 @@ REQUIRED = [
 
 # Optional
 EXTRAS = {
-        # '': [''],
+        'full': ['torch', 'pynvml']
+        'nv-io': ['torch'],
+        'nv-track': ['torch', 'pynvml'],
         }
 
 # Upload command class of the setup.py.
