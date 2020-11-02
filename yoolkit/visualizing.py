@@ -69,7 +69,7 @@ class Visualizer(object):
             return
         if self.offline == True:
             if self.logging_path is None:
-                self.logging_path = mk_temp('pedestal-visualizer-', 'file')
+                self.logging_path = mk_temp('yoolkit-visualizer-', 'file')
             self.environment = visdom.Visdom(env=self.name, log_to_filename=self.logging_path, offline=self.offline)
         else:
             self.environment = visdom.Visdom(

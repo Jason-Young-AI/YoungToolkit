@@ -15,7 +15,6 @@ import sys
 import unicodedata
 
 from yoolkit.constant import Constant
-from yoolkit.decorator import ArgumentTypeChecker
 
 from chardet.universaldetector import UniversalDetector
 
@@ -55,49 +54,43 @@ constant.UNICODE_CHAR_CATEGORIES = {
 }
 
 
-class Text(object):
-    @classmethod
-    @ArgumentTypeChecker(file_path=str, detect_times=int)
-    def detect_file_encoding(cls, file_path, detect_times=50000):
-        detector = UniversalDetector()
-        time = 0
-        with open(file_path, 'rb') as file:
-            detector.reset()
-            for line in file:
-                time += 1
-                if time > detect_times:
-                    break
-                detector.feed(line)
-                if detector.done:
-                    break
-            detector.close()
-            file_encoding_type = detector.result['encoding']
-            if file_encoding_type == 'GB2312' or file_encoding_type == 'GB18030':
-                file_encoding_type = 'GBK'
-            if file_encoding_type == 'Windows-1254':
-                file_encoding_type = 'utf-8'
-        return file_encoding_type
+def detect_file_encoding(file_path, detect_times=50000):
+    detector = UniversalDetector()
+    time = 0
+    with open(file_path, 'rb') as file:
+        detector.reset()
+        for line in file:
+            time += 1
+            if time > detect_times:
+                break
+            detector.feed(line)
+            if detector.done:
+                break
+        detector.close()
+        file_encoding_type = detector.result['encoding']
+        if file_encoding_type == 'GB2312' or file_encoding_type == 'GB18030':
+            file_encoding_type = 'GBK'
+        if file_encoding_type == 'Windows-1254':
+            file_encoding_type = 'utf-8'
+    return file_encoding_type
 
-    @classmethod
-    @ArgumentTypeChecker(string=str, form=str)
-    def normalize(cls, string, form='NFKC'):
-        # For more information about 'NF*', please refer to Unicode equivalence(https://en.wikipedia.org/wiki/Unicode_equivalence)
-        assert form in {'NFC', 'NFKC', 'NFD', 'NFKD'}, f'Do not support this kind of form: \'{form}\'!'
-        string = unicodedata.normalize(form, string)
-        for special_char, normal_char in SPECIAL_TO_NORMAL.items():
-            string = re.sub(special_char, normal_char, string)
-        return string
 
-    @classmethod
-    @ArgumentTypeChecker(char=str)
-    def char_category(cls, char):
-        return unicodedata.category(char)
+def unicode_category(char):
+    return unicodedata.category(char)
 
-    @classmethod
-    @ArgumentTypeChecker(string=str, category=str)
-    def chars_by_category(cls, string, category):
-        chars = set()
-        for char in string:
-            if category in cls.char_category(char):
-                chars.add(char)
-        return chars
+
+def unicode_chars_by_category(string, category):
+    chars = set()
+    for char in string:
+        if category in unicode_category(char):
+            chars.add(char)
+    return chars
+
+
+def normalize(string, form='NFKC'):
+    # For more information about 'NF*', please refer to Unicode equivalence(https://en.wikipedia.org/wiki/Unicode_equivalence)
+    assert form in {'NFC', 'NFKC', 'NFD', 'NFKD'}, f'Do not support this kind of form: \'{form}\'!'
+    string = unicodedata.normalize(form, string)
+    for special_char, normal_char in SPECIAL_TO_NORMAL.items():
+        string = re.sub(special_char, normal_char, string)
+    return ' '.join(string.split())

@@ -42,7 +42,7 @@ def setup_logger(name, logging_path='', logging_level=logging.NOTSET):
     logger.setLevel(logging_level)
 
     if logging_path == '':
-        logging_path = mk_temp('pedestal-logger-', 'file')
+        logging_path = mk_temp('yoolkit-logger-', 'file')
         print(f'Logging path is not specified, the following path is used for logging: {logging_path}')
 
     logger.handlers.clear()

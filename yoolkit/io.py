@@ -12,6 +12,7 @@
 
 import io
 import os
+import torch
 import pickle
 import tempfile
 import itertools
@@ -39,6 +40,21 @@ def rm_temp(temp_path):
         os.rmdir(temp_path)
 
 
+def dumps(data):
+    serailized_data = None
+    bytes_storage = io.BytesIO()
+    torch.save(data, bytes_storage)
+    serialized_data = bytes_storage.getvalue()
+    return serialized_data
+
+
+def loads(serialized_data):
+    data = None
+    bytes_storage = io.BytesIO(serialized_data)
+    data = torch.load(bytes_storage)
+    return data
+
+
 def dump_data(file_path, data_object):
     with open(file_path, 'wb') as file_object:
         pickle.dump(data_object, file_object)
@@ -64,7 +80,7 @@ def load_datas(file_path):
                 break
 
 
-def load_plain(file_path, partition_unit='line', partition_size=1000000):
+def load_plain(file_path, file_encoding='utf-8', partition_unit='line', partition_size=1000000):
     assert partition_unit in {'byte', 'line'}, f'Invalid unit of partition: \'{partition_unit}\' (Ops: [\'byte\', \'line\'])'
     assert partition_size > 0, f'Invalid size of partition: \'{partition_size}\''
 
@@ -78,7 +94,7 @@ def load_plain(file_path, partition_unit='line', partition_size=1000000):
                     yield file_partition
 
     elif partition_unit == 'line':
-        with open(file_path, 'r', encoding='utf-8') as file_object:
+        with open(file_path, 'r', encoding=file_encoding) as file_object:
             while True:
                 file_partition = list(itertools.islice(file_object, partition_size))
                 if len(file_partition) == 0:

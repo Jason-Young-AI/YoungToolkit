@@ -6,17 +6,12 @@
 # E-Mail: <AI.Jason.Young@outlook.com>
 # 2020-04-01 20:09
 #
-# This source code is licensed under the Apache-2.0 license found in the
+# This source code is licensed under the WTFPL license found in the
 # LICENSE file in the root directory of this source tree.
 
 
-import os
-import sys
 import pyhocon
-import argparse
 import collections
-
-from yoolkit.constant import Constant
 
 
 class HOCONArguments(object):
