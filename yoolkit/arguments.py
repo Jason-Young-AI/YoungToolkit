@@ -14,6 +14,18 @@ import pyhocon
 import collections
 
 
+def load_arguments(hocon_abs_path):
+    hocon = pyhocon.ConfigFactory.parse_file(hocon_abs_path)
+    return HOCONArguments(hocon)
+
+
+def update_arguments(arguments, hocon_abs_path):
+    assert isinstance(arguments, HOCONArguments), f'Arguments must be a HOCONArguments object.'
+    hocon = pyhocon.ConfigFactory.parse_file(hocon_abs_path)
+    arguments.update(hocon)
+    return arguments
+
+
 class HOCONArguments(object):
     RESERVED_NAME = set({ '_HOCONArguments__names', 'dictionary', 'hocon', 'update', 'save' })
     def __init__(self, hocon):
