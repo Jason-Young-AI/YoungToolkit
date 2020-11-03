@@ -100,7 +100,7 @@ class UploadCommand(setuptools.Command):
         self.status('Pushing git tags ...')
         os.system('git tag v{}'.format(PACKAGE_INFO['Version']))
         os.system('git push --tags')
-        os.system('git push -u origin master')
+        os.system('git push -u origin main')
 
         sys.exit()
 
