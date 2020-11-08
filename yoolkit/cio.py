@@ -64,7 +64,7 @@ def load_datas(file_path):
                 break
 
 
-def load_plain(file_path, file_encoding='utf-8', partition_unit='line', partition_size=1000000):
+def load_plain(file_path, file_encoding='utf-8', newline='\n', partition_unit='line', partition_size=1000000):
     assert partition_unit in {'byte', 'line'}, f'Invalid unit of partition: \'{partition_unit}\' (Ops: [\'byte\', \'line\'])'
     assert partition_size > 0, f'Invalid size of partition: \'{partition_size}\''
 
@@ -78,7 +78,7 @@ def load_plain(file_path, file_encoding='utf-8', partition_unit='line', partitio
                     yield file_partition
 
     elif partition_unit == 'line':
-        with open(file_path, 'r', encoding=file_encoding) as file_object:
+        with open(file_path, 'r', encoding=file_encoding, newline=newline) as file_object:
             while True:
                 file_partition = list(itertools.islice(file_object, partition_size))
                 if len(file_partition) == 0:
