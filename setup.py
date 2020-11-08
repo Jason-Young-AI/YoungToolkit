@@ -56,10 +56,15 @@ REQUIRED = [
         ]
 
 # Optional
+
+NV_IO_EXTRAS = set(['torch'])
+NV_TRACK_EXTRAS = set(['torch', 'pynvml', 'numpy'])
+FULL = NV_IO_EXTRAS | NV_TRACK_EXTRAS
+
 EXTRAS = {
-        'full': ['torch', 'pynvml', 'numpy'],
-        'nv-io': ['torch'],
-        'nv-track': ['torch', 'pynvml', 'numpy'],
+        'full': FULL,
+        'nv-io': NV_IO_EXTRAS,
+        'nv-track': NV_TRACK_EXTRAS,
         }
 
 # Upload command class of the setup.py.
