@@ -129,6 +129,9 @@ class Visualizer(object):
             line = window_name + '\n'
             logging_win_file.writelines(line)
 
+    def replay_log(self, logging_path):
+        self.environment.replay_log(logging_path)
+
     def visualize(self, visualize_type, visualize_name, visualize_title, **keyword_args):
         if self.disabled:
             return
