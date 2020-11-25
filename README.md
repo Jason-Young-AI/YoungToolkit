@@ -17,7 +17,7 @@ See [Full Documentation](https://jason-young.me/YoungToolkit/) for more details.
 #### visualizing
 This module is a encapsulation of the client side of [visdom](https://github.com/facebookresearch/visdom), note that the visdom server API adheres to the [Plotly](https://plot.ly) convention of data and layout objects.
 
-**Visualizing Server**
+##### Visualizing Server
 
 If you have not host a server of the visdom for yourself, please follow the instructions below.
 ```bash
@@ -35,7 +35,7 @@ nohup bash -c start_visdom > visdom.log 2>&1 &
 ```
 or you can download the [start](https://github.com/Jason-Young-AI/YoungToolkit/blob/main/scripts/startv.sh) and [stop](https://github.com/Jason-Young-AI/YoungToolkit/blob/main/scripts/stopv.sh) scripts for convenience.
 
-**Visualizing Client**
+###### Visualizing Client
 
 1. Setup visualizing client for the server you host (assume your host ip is 127.0.0.1):
 ```python
