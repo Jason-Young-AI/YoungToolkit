@@ -59,7 +59,7 @@ def setup_logger(name, logging_path='', logging_level=logging.NOTSET, to_console
         console_handler.setFormatter(logging_formatter)
         logger.addHandler(console_handler)
     else:
-        print(f'No log report to console, please look throungh logging in \'{logging_path}\'.')
+        print(f'No log report to console, please look through logging in \'{logging_path}\'.')
 
     logger_dict[name] = logger
 
