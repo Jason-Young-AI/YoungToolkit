@@ -11,11 +11,20 @@
 
 
 import os
+import sys
 import importlib
 
 
-def import_modules(father, directory):
-    file_names = os.listdir(directory)
+def import_modules(directory, package=None):
+    if os.path.isdir(directory):
+        file_names = os.listdir(directory)
+    else:
+        file_names = list()
+
+    if package is None:
+        sys.path.insert(0, directory)
+        print(sys.path)
+
     for file_name in file_names:
         file_path = os.path.join(directory, file_name)
         if os.path.isfile(file_path):
@@ -23,7 +32,14 @@ def import_modules(father, directory):
                 continue
             if file_name.endswith('.py'):
                 module_name = file_name[:file_name.find('.py')]
-                importlib.import_module(father + '.' + module_name)
+                if package is None:
+                    module_name = f'user_{module_name}'
+                    spec = importlib.util.spec_from_file_location(module_name, file_path)
+                    module = importlib.util.module_from_spec(spec)
+                    sys.modules[module_name] = module
+                    spec.loader.exec_module(module)
+                else:
+                    importlib.import_module('.' + module_name, package=package)
 
 
 class Registration(object):
