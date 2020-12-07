@@ -35,7 +35,7 @@ nohup bash -c start_visdom > visdom.log 2>&1 &
 ```
 or you can download the [start](https://github.com/Jason-Young-AI/YoungToolkit/blob/main/scripts/startv.sh) and [stop](https://github.com/Jason-Young-AI/YoungToolkit/blob/main/scripts/stopv.sh) scripts for convenience.
 
-###### Visualizing Client
+##### Visualizing Client
 
 1. Setup visualizing client for the server you host (assume your host ip is 127.0.0.1):
 ```python
