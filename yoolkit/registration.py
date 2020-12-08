@@ -15,26 +15,30 @@ import sys
 import importlib
 
 
-def import_modules(directory, package=None):
+def import_modules(directory, package):
+    directory = os.path.abspath(directory)
     if os.path.isdir(directory):
-        file_names = os.listdir(directory)
+        item_names = os.listdir(directory)
     else:
-        file_names = list()
+        item_names = list()
 
-    if package is None:
+    package_spec = importlib.util.find_spec(package)
+    if package_spec is None:
         sys.path.insert(0, directory)
-        print(sys.path)
 
-    for file_name in file_names:
-        file_path = os.path.join(directory, file_name)
-        if os.path.isfile(file_path):
-            if file_name.startswith('_') or file_name.startswith('.'):
+    else:
+        pass
+
+    for item_name in item_names:
+        item_path = os.path.join(directory, item_name)
+        if os.path.isfile(item_path):
+            if item_name.startswith('_') or item_name.startswith('.'):
                 continue
-            if file_name.endswith('.py'):
-                module_name = file_name[:file_name.find('.py')]
-                if package is None:
-                    module_name = f'user_{module_name}'
-                    spec = importlib.util.spec_from_file_location(module_name, file_path)
+            if item_name.endswith('.py'):
+                module_name = item_name[:item_name.find('.py')]
+                if package_spec is None:
+                    module_name = f'{package}.{module_name}'
+                    spec = importlib.util.spec_from_file_location(module_name, item_path)
                     module = importlib.util.module_from_spec(spec)
                     sys.modules[module_name] = module
                     spec.loader.exec_module(module)
