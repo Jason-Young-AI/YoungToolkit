@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #
 # startv.sh
 # Copyright (C) 2020 Jason Young (杨郑鑫) <AI.Jason.Young@outlook.com>
