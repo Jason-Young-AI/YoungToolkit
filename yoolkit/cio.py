@@ -63,6 +63,11 @@ def load_datas(file_path):
             except EOFError:
                 break
 
+def load_lines(file_path, file_encoding='utf-8', newline='\n'):
+    with open(file_path, 'r', encoding=file_encoding, newline=newline) as file_object:
+        for line in file_object:
+            yield line
+
 
 def load_plain(file_path, file_encoding='utf-8', newline='\n', partition_unit='line', partition_size=1000000):
     assert partition_unit in {'byte', 'line'}, f'Invalid unit of partition: \'{partition_unit}\' (Ops: [\'byte\', \'line\'])'
