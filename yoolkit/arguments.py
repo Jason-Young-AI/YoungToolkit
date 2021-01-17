@@ -42,6 +42,12 @@ class HOCONArguments(object):
         else:
             raise ValueError(f'Argument hocon(\'{hocon}\') is not a \'pyhocon.config_tree.ConfigTree\' object.')
 
+    def __str__(self):
+        return f"{str(self.hocon)}"
+
+    def __repr__(self):
+        return f"HOCONArguments({repr(self.hocon)})"
+
     def __iter__(self):
         for attribute_name in self.__names:
             yield (attribute_name, self[attribute_name])
