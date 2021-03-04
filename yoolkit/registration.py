@@ -23,8 +23,8 @@ def import_modules(directory, package):
         item_names = list()
 
     package_spec = importlib.util.find_spec(package)
-    if package_spec is None:
-        sys.path.insert(0, directory)
+    if package_spec is None and directory not in sys.path:
+        sys.path.insert(1, directory)
 
     else:
         pass
