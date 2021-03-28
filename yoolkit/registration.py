@@ -16,10 +16,11 @@ import importlib
 
 
 def import_modules(directory, package):
-    directory = os.path.abspath(directory)
     if os.path.isdir(directory):
+        directory = os.path.abspath(directory)
         item_names = os.listdir(directory)
     else:
+        directory = ''
         item_names = list()
 
     package_spec = importlib.util.find_spec(package)
