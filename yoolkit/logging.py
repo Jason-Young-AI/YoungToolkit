@@ -10,6 +10,7 @@
 # LICENSE file in the root directory of this source tree.
 
 
+import sys
 import logging
 
 from yoolkit.cio import mk_temp
@@ -36,7 +37,11 @@ def get_logger(name):
     return logger
 
 
-def setup_logger(name, logging_path='', logging_level=logging.NOTSET, to_console=True, to_file=True):
+def setup_logger(name, logging_path='', logging_level=logging.NOTSET, to_console=True, to_file=True, clean_logging_file=False):
+    if clean_logging_file:
+        mode = 'w'
+    else:
+        mode = 'a'
     logging_formatter = logging.Formatter("[%(asctime)s %(levelname)s] %(message)s")
     logger = logging.getLogger(name)
     logger.setLevel(logging_level)
@@ -48,19 +53,20 @@ def setup_logger(name, logging_path='', logging_level=logging.NOTSET, to_console
             logging_path = mk_temp('yoolkit-logger-', 'file')
             print(f'Logging path is not specified, the following path is used for logging: {logging_path}')
 
-        file_handler = logging.FileHandler(logging_path)
+        file_handler = logging.FileHandler(logging_path, mode=mode, encoding='utf-8')
         file_handler.setLevel(logging_level)
         file_handler.setFormatter(logging_formatter)
         logger.addHandler(file_handler)
 
     if to_console:
-        console_handler = logging.StreamHandler()
+        console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(logging_level)
         console_handler.setFormatter(logging_formatter)
         logger.addHandler(console_handler)
     else:
         print(f'No log report to console, please look through logging in \'{logging_path}\'.')
 
+    logger.propagate = False
     logger_dict[name] = logger
 
     return logger
