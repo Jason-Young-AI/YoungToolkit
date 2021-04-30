@@ -87,6 +87,61 @@ def unicode_chars_by_category(string, category):
     return chars
 
 
+def is_CJK_char(char):
+    # The following is based on http://en.wikipedia.org/wiki/Basic_Multilingual_Plane#Basic_Multilingual_Plane
+    # Hangul Jamo (1100–11FF)
+    if ord(u'\U00001100') <= ord(char) and ord(char) <= ord(u'\U000011FF'):
+        return True
+
+    # CJK Radicals Supplement (2E80–2EFF)
+    # Kangxi Radicals (2F00–2FDF)
+    # Ideographic Description Characters (2FF0–2FFF)
+    # CJK Symbols and Punctuation (3000–303F)
+    # Hiragana (3040–309F)
+    # Katakana (30A0–30FF)
+    # Bopomofo (3100–312F)
+    # Hangul Compatibility Jamo (3130–318F)
+    # Kanbun (3190–319F)
+    # Bopomofo Extended (31A0–31BF)
+    # CJK Strokes (31C0–31EF)
+    # Katakana Phonetic Extensions (31F0–31FF)
+    # Enclosed CJK Letters and Months (3200–32FF)
+    # CJK Compatibility (3300–33FF)
+    # CJK Unified Ideographs Extension A (3400–4DBF)
+    # Yijing Hexagram Symbols (4DC0–4DFF)
+    # CJK Unified Ideographs (4E00–9FFF)
+    # Yi Syllables (A000–A48F)
+    # Yi Radicals (A490–A4CF)
+    if ord(u'\U00002E80') <= ord(char) and ord(char) <= ord(u'\U0000A4CF'):
+        return True
+
+    # Phags-pa (A840–A87F)
+    if ord(u'\U0000A840') <= ord(char) and ord(char) <= ord(u'\U0000A87F'):
+        return True
+
+    # Hangul Syllables (AC00–D7AF)
+    if ord(u'\U0000AC00') <= ord(char) and ord(char) <= ord(u'\U0000D7AF'):
+        return True
+
+    # CJK Compatibility Ideographs (F900–FAFF)
+    if ord(u'\U0000F900') <= ord(char) and ord(char) <= ord(u'\U0000FAFF'):
+        return True
+
+    # CJK Compatibility Forms (FE30–FE4F)
+    if ord(u'\U0000FE30') <= ord(char) and ord(char) <= ord(u'\U0000FE4F'):
+        return True
+
+    # Range U+FF65–FFDC encodes halfwidth forms, of Katakana and Hangul characters
+    if ord(u'\U0000FF65') <= ord(char) and ord(char) <= ord(u'\U0000FFDC'):
+        return True
+
+    # Supplementary Ideographic Plane 20000–2FFFF
+    if ord(u'\U00020000') <= ord(char) and ord(char) <= ord(u'\U0002FFFF'):
+        return True
+
+    return False
+
+
 def normalize(string, form='NFKC'):
     # For more information about 'NF*', please refer to Unicode equivalence(https://en.wikipedia.org/wiki/Unicode_equivalence)
     assert form in {'NFC', 'NFKC', 'NFD', 'NFKD'}, f'Do not support this kind of form: \'{form}\'!'
