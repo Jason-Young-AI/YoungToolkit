@@ -16,13 +16,13 @@ import re
 def encode(string):
     string = re.sub(r'\&amp;amp;', '&', string)
     string = re.sub(r'\&amp;', '&', string)
-    string = re.sub(r'\&quot', '"', string)
-    string = re.sub(r'\&apos', "'", string)
-    string = re.sub(r'\&lt', '<', string)
-    string = re.sub(r'\&gt', '>', string)
+    string = re.sub(r'\&quot;', '"', string)
+    string = re.sub(r'\&apos;', "'", string)
+    string = re.sub(r'\&lt;', '<', string)
+    string = re.sub(r'\&gt;', '>', string)
 
     string = re.sub(r'\&bar;', '|', string)
-    string = re.sub(r'\&#124', '|', string)
+    string = re.sub(r'\&#124;', '|', string)
 
     string = re.sub(r'\&bra;', '[', string)
     string = re.sub(r'\&#91;', '[', string)
